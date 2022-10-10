@@ -26,8 +26,21 @@ public class Database {
         
         // INSERT YOUR CODE HERE
         
-        return result;
         
+        try{        
+        String query = "SELECT * FROM badge Where termid = ? and subjectid = ? and num = ?";
+        PreparedStatement pstmt = connection.prepareStatement(query);
+        pstmt.setInt(1, termid);
+        pstmt.setString(2, subjectid);
+        pstmt.setString(3, num);
+            ResultSet ResultSet = pstmt.executeQuery();
+        result = getResultSetasJSON(ResultSet);
+        
+        
+    }
+        catch (SQLException e) 
+        {e.printStackTrace();}
+        return result;
     }
     
     public int register(int studentid, int termid, int crn) {
@@ -35,7 +48,16 @@ public class Database {
         int result = 0;
         
         // INSERT YOUR CODE HERE
-        
+        try{
+        String query = "INSERT INTO registration (studentid, termid, crn) VALUES (?,?,?)";
+        PreparedStatement pstmt = connection.prepareStatement(query);
+        pstmt.setInt(1, studentid);
+        pstmt.setInt(2, termid);
+        pstmt.setInt(3, crn);
+        result = pstmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {e.printStackTrace();}
         return result;
         
     }
@@ -45,7 +67,16 @@ public class Database {
         int result = 0;
         
         // INSERT YOUR CODE HERE
-        
+        try{
+        String query = "DELETE FROM registration WHERE studentId = " +studentid+ " AND termId = "+termid+" and crnNumber = "+crn+"";
+        PreparedStatement pstmt = connection.prepareStatement(query);
+        pstmt.setInt(1, studentid);
+        pstmt.setInt(2, termid);
+        pstmt.setInt(3, crn);
+        result = pstmt.executeUpdate();
+        }
+        catch(SQLException e)
+            {e.printStackTrace();}
         return result;
         
     }
@@ -55,7 +86,15 @@ public class Database {
         int result = 0;
         
         // INSERT YOUR CODE HERE
-        
+        try{
+            String query = "DELETE FROM registration WHERE studentId = "+studentid+" AND termId = "+termid+"";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, studentid);
+            pstmt.setInt(1, termid);
+            result = pstmt.executeUpdate();
+        }
+        catch(SQLException e)
+            {e.printStackTrace();}
         return result;
         
     }
@@ -65,7 +104,16 @@ public class Database {
         String result = null;
         
         // INSERT YOUR CODE HERE
-        
+        try{
+            String query = "SELECT * FROM registration WHERE termId = "+termid+" AND studentId = "+studentid+"";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, studentid);
+            pstmt.setInt(2, termid);
+            ResultSet ResultSet = pstmt.executeQuery();
+            result = getResultSetAsJSON(ResultSet);
+        }
+        catch(SQLException e)
+            {e.printStackTrace();}
         return result;
         
     }
@@ -161,7 +209,10 @@ public class Database {
             int columnCount = metadata.getColumnCount();
             
             // INSERT YOUR CODE HERE
-        
+        for (int i = 1; i <= columnCount; ++i)
+        {
+            keys.add(metadata.getColumnLabel(i));
+        }
         }
         catch (Exception e) { e.printStackTrace(); }
         
@@ -170,6 +221,10 @@ public class Database {
         result = JSONValue.toJSONString(json);
         return result;
         
+    }
+
+    private String getResultSetasJSON(ResultSet ResultSet) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
