@@ -33,7 +33,7 @@ public class Database {
         pstmt.setInt(1, termid);
         pstmt.setString(2, subjectid);
         pstmt.setString(3, num);
-            ResultSet ResultSet = pstmt.executeQuery();
+        ResultSet = pstmt.executeQuery();
         result = getResultSetasJSON(ResultSet);
         
         
@@ -109,7 +109,7 @@ public class Database {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, studentid);
             pstmt.setInt(2, termid);
-            ResultSet ResultSet = pstmt.executeQuery();
+            ResultSet = pstmt.executeQuery();
             result = getResultSetAsJSON(ResultSet);
         }
         catch(SQLException e)
