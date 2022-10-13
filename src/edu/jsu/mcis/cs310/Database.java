@@ -9,6 +9,7 @@ public class Database {
     private final Connection connection;
     
     private final int TERMID_SP22 = 1;
+    private ResultSet ResultSet;
     
     /* CONSTRUCTOR */
 
@@ -28,13 +29,14 @@ public class Database {
         
         
         try{        
-        String query = "SELECT * FROM badge Where termid = ? and subjectid = ? and num = ?";
+        String query = "SELECT * FROM section WHERE termid = ? AND subjectid = ? AND num = ?";
         PreparedStatement pstmt = connection.prepareStatement(query);
         pstmt.setInt(1, termid);
         pstmt.setString(2, subjectid);
         pstmt.setString(3, num);
         ResultSet = pstmt.executeQuery();
         result = getResultSetasJSON(ResultSet);
+        
         
         
     }
@@ -49,7 +51,7 @@ public class Database {
         
         // INSERT YOUR CODE HERE
         try{
-        String query = "INSERT INTO registration (studentid, termid, crn) VALUES (?,?,?)";
+        String query = "INSERT INTO registration (studentid, termid, crn) VALUES (?, ?, ?)";
         PreparedStatement pstmt = connection.prepareStatement(query);
         pstmt.setInt(1, studentid);
         pstmt.setInt(2, termid);
@@ -68,7 +70,7 @@ public class Database {
         
         // INSERT YOUR CODE HERE
         try{
-        String query = "DELETE FROM registration WHERE studentId = " +studentid+ " AND termId = "+termid+" and crnNumber = "+crn+"";
+        String query = "DELETE FROM registration WHERE studentid = ? AND termid = ? AND crn = ?";
         PreparedStatement pstmt = connection.prepareStatement(query);
         pstmt.setInt(1, studentid);
         pstmt.setInt(2, termid);
@@ -87,7 +89,7 @@ public class Database {
         
         // INSERT YOUR CODE HERE
         try{
-            String query = "DELETE FROM registration WHERE studentId = "+studentid+" AND termId = "+termid+"";
+            String query = "DELETE FROM registration WHERE studentid = ? AND termid = ?";
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, studentid);
             pstmt.setInt(1, termid);
@@ -105,7 +107,7 @@ public class Database {
         
         // INSERT YOUR CODE HERE
         try{
-            String query = "SELECT * FROM registration WHERE termId = "+termid+" AND studentId = "+studentid+"";
+            String query = "SELECT * FROM registration WHERE termid = ? AND studentid = ?";
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, studentid);
             pstmt.setInt(2, termid);
@@ -226,5 +228,7 @@ public class Database {
     private String getResultSetasJSON(ResultSet ResultSet) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    
     
 }
